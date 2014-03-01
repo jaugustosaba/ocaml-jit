@@ -8,7 +8,8 @@ let lexbuf = Lexing.from_channel stdin in
         Printf.printf "AST: %s\n" str;
         Printf.printf "Result: %d\n" res;
         Printf.printf "Stack code dump:\n";
-        Stack.dump stk
+        Stack.dump stk;
+        Printf.printf "JIT: %d\n" (Jit.execute stk)
       end
   with
     Lexer.Lex_error lexeme -> Printf.printf "Bad word \"%s\"\n" lexeme
