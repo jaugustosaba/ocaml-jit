@@ -14,7 +14,7 @@ let compile stack_instrs =
   let epilogue = "\x58\x5d\xc2\x00\x00" in
   let compile_instr stack_instr =
     match stack_instr with
-    | Stack.Push n ->
+    | Interp.Push n ->
         (*
           movabs $0x...,%rax
           push   %rax
@@ -27,13 +27,13 @@ let compile stack_instrs =
           done;
           Buffer.add_string buffer "\x50"
         end    
-    | Stack.Add ->
+    | Interp.Add ->
         (*
           pop    %rax
           add    %rax,(%rsp)
         *)
         Buffer.add_string buffer "\x58\x48\x01\x04\x24"
-    | Stack.Mul ->
+    | Interp.Mul ->
         (*
           pop    %rax
           imul   (%rsp),%rax
@@ -48,7 +48,7 @@ let compile stack_instrs =
   end
 
 
-let execute stack_instrs =
+let eval stack_instrs =
   let code = compile stack_instrs in
     run_native code
 

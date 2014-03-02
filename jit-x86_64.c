@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -10,7 +11,7 @@ CAMLprim value run_native(value code) {
 	char *ptr = String_val(code);
 	size_t n = caml_string_length(code);
 	int result = 0;
-	void *exec_mem = mmap(NULL, n, PROT_WRITE | PROT_READ | PROT_EXEC, MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
+	void *exec_mem = mmap(NULL, n, PROT_WRITE | PROT_READ | PROT_EXEC, MAP_PRIVATE | MAP_ANON, 0, 0);
 	if (exec_mem != MAP_FAILED) {
 		memcpy(exec_mem, ptr, n);
 		JitFun fun = (JitFun) exec_mem;
